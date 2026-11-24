@@ -1,0 +1,11 @@
+const router = require("express").Router();
+const asyncHandler = require("../utils/asyncHandler");
+const { authenticate, allowRoles } = require("../middleware/auth");
+const c = require("../controllers/officers.controller");
+router.use(authenticate);
+router.get("/", asyncHandler(c.list));
+router.get("/:id", asyncHandler(c.getById));
+router.post("/", allowRoles("ADMIN"), asyncHandler(c.create));
+router.patch("/:id", allowRoles("ADMIN"), asyncHandler(c.update));
+router.delete("/:id", allowRoles("ADMIN"), asyncHandler(c.remove));
+module.exports = router;

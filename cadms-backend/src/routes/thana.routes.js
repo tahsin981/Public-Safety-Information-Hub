@@ -1,0 +1,10 @@
+const router = require("express").Router();
+const asyncHandler = require("../utils/asyncHandler");
+const { authenticate, allowRoles } = require("../middleware/auth");
+const c = require("../controllers/thana.controller");
+router.get("/", asyncHandler(c.list));
+router.get("/:id", asyncHandler(c.getById));
+router.post("/", authenticate, allowRoles("ADMIN"), asyncHandler(c.create));
+router.patch("/:id", authenticate, allowRoles("ADMIN"), asyncHandler(c.update));
+router.delete("/:id", authenticate, allowRoles("ADMIN"), asyncHandler(c.remove));
+module.exports = router;
